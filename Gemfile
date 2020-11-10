@@ -31,6 +31,13 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
+# The gemfile is where all your dependencies are listed
+# They're seperated into different environments
+# You must `bundle` inside of terminal it actually install the added gems
+
+# you can use the command `rails c` to enter a "rails console".
+# Rails console is a REPL with all of the gems for your rails project loaded in to play around with... really good debugging/testing tool
+# type `exit` to exit the console
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
@@ -38,6 +45,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'cowsay', '~> 0.3.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
