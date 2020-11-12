@@ -9,6 +9,13 @@ before_save :capitalize_title # it will work when before the data is saved to db
 # end
 scope :recent_ten, lambda{order("created_at DESC").limit(10)}
 
+# def self.search(query)
+#     where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%")
+# end
+# 👆🏻Converted into lambda👇🏻
+scope(:search,->(query){where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%")})
+
+
 # rails g model question title:string body:text
 # "rails" is console keyward that we use
 # g / generate :  this is used to generate models, migrations, controllers etc
