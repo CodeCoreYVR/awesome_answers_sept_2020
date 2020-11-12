@@ -5,3 +5,25 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+# rail db:seed 👈🏻 command to run seed file
+Question.destroy_all
+
+200.times do
+    # 👇🏻This will generate Random date in the past(Up to maximum of N days)
+    created_at = Faker::Date.backward(days:365*5)
+
+    Question.create(
+        title: Faker::Hacker.say_something_smart,
+        body: Faker::ChuckNorris.fact,
+        view_count: rand(100_000),
+        created_at:created_at,
+        updated_at:created_at
+
+    )
+
+end
+question=Question.all
+
+puts Cowsay.say("Generated #{question.count} questions", :frogs)
