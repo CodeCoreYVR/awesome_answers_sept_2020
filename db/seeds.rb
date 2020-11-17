@@ -24,6 +24,18 @@ Question.destroy_all
     )
 
 end
-question=Question.all
+questions = Question.all
 
-puts Cowsay.say("Generated #{question.count} questions", :frogs)
+questions.each do |q|
+    5.times do
+        Answer.create(
+            body: Faker::Lorem.paragraph,
+            question_id: q.id
+        )
+    end
+end
+
+answers = Answer.all
+
+puts Cowsay.say("Generated #{questions.count} questions", :frogs)
+puts Cowsay.say("Generated #{answers.count} answers", :frogs)
