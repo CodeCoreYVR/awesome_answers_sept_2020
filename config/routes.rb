@@ -41,5 +41,16 @@ Rails.application.routes.draw do
   # delete('/questions/:id', { to: 'questions#destroy' })
 
   get('/questions/newest', { to: 'questions#newest' })
-  resources :questions #builds all of the above RESTful routes to Rails Convention
+  #builds all of the above RESTful routes to Rails Convention
+  resources :questions do
+    # index => GET '/questions/:question_id/answers'
+    # new =>  GET '/questions/:question_id/answers/new'
+    # create => POST '/questions/:question_id/answers'
+    # show => GET '/questions/:question_id/answers/:id'
+    # edit => GET '/questions/:question_id/answers/:id/edit'
+    # update => PATCH '/questions/:question_id/answers/:id'
+    # delete => DELETE '/questions/:question_id/answers/:id'
+    resources :answers, only: [:create, :destroy]
+  end
+
 end

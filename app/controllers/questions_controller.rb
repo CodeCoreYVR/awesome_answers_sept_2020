@@ -26,6 +26,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = Answer.new # is to make sure form_with works...
+    @answers = @question.answers
   end
 
   def edit
