@@ -26,19 +26,19 @@ Rails.application.routes.draw do
   # DELETE "/questions/1" - delete the question with id of 1
 
   # index
-  get('/questions', { to: 'questions#index', as: :questions_index })
-  # new
-  get('/questions/new', { to: 'questions#new', as: :new_question })
-  # create
-  post('/questions', { to: 'questions#create', as: :questions })
-  # show
-  get('/questions/:id', { to: 'questions#show', as: :question })
-  # edit
-  get('/questions/:id/edit', { to: 'questions#edit', as: :edit_question })
-  # update
-  patch('/questions/:id', { to: 'questions#update' })
-  # delete
-  delete('/questions/:id', { to: 'questions#delete' })
+  # get('/questions', { to: 'questions#index', as: :questions_index })
+  # # new
+  # get('/questions/new', { to: 'questions#new', as: :new_question })
+  # # create
+  # post('/questions', { to: 'questions#create', as: :questions })
+  # # show
+  # get('/questions/:id', { to: 'questions#show', as: :question })
+  # # edit
+  # get('/questions/:id/edit', { to: 'questions#edit', as: :edit_question })
+  # # update
+  # patch('/questions/:id', { to: 'questions#update' })
+  # # delete
+  # delete('/questions/:id', { to: 'questions#destroy' })
 
-  # resources :questions
+  resources :questions #builds all of the above RESTful routes to Rails Convention
 end
