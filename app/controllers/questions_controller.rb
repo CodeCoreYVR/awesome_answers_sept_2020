@@ -44,6 +44,11 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
+  def newest
+    @question = Question.all.order(created_at: 'desc')[0]
+    render :show
+  end
+
   private
 
   def question_params
@@ -55,3 +60,13 @@ class QuestionsController < ApplicationController
   end
 
 end
+
+
+# Rails RESTful Routes URL Helper Method Convention
+# If we're using resources :questions in /config/routes.rb
+# Rails will create URL Helper methods that look like the following:
+
+# questions_path = '/questions'
+# new_question_path = '/questions/new'
+# edit_question_path = '/questions/:id/edit'
+# question_path = '/questions/:id'

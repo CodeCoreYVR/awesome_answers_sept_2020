@@ -1,4 +1,8 @@
 class Question < ApplicationRecord
+
+    has_many :answers, dependent: :destroy
+    # creates a has_many association between Question and Answer
+    # now you have additonal methods to query the association. More info at https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_many
 # 👆🏻Question Class inherits from ApplicationRecord
 
 after_initialize :set_defaults # it is generally usefull to set the default values
