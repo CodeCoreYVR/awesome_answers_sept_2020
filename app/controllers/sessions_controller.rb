@@ -15,4 +15,8 @@ class SessionsController < ApplicationController
             render :new
         end
     end
+    def destroy
+        session[:user_id]=nil # By replacing value of user_id in session with nil we made out user logged out
+        redirect_to root_path, notice: "Logged Out!"
+    end
 end
