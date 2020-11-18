@@ -1,7 +1,13 @@
 <h1><%= @question.title %></h1>
 
 <p><%= @question.body %></p>
-<p><%= @question.created_at %></p>
+<h4>
+  Created by: <%= @question.user&.full_name%>
+  <!-- '&.' Safe Navigation Operator: if object is not found it will not creash the page or app.Avoiding undefined method for nil:NilClass -->
+  <%# comments %>
+
+</h4>
+<p><%= time_ago_in_words(@question.created_at) %></p>
 
 <%= link_to "Edit", edit_question_path(@question) %>
 <%= link_to "Delete", question_path(@question), method: :delete, data: { confirm: "Are you sure?" } %>
@@ -33,6 +39,10 @@
           confirm: "are you sure you want to delete this answer?"
         }
       )%>
+      <small>
+        Answered by: <%= a.user&.full_name%>
+      </small>
+      Answered <%= time_ago_in_words(a.created_at)%>
     </li>
   <% end %>
 </ul>

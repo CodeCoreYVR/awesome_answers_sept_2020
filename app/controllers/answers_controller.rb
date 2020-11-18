@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
     @question = Question.find params[:question_id]
     @answer = Answer.new params.require(:answer).permit(:body)
     @answer.question = @question
+    @answer.user= current_user
     if @answer.save
       redirect_to question_path(@question)
     else

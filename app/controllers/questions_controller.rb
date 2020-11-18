@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except:[:index, :show]
+  # Methods ending in ! perform some permanent or potentially dangerous change
+  
   # see more about controller hooks/callbacks here https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   # returns every question from the database
@@ -16,6 +18,7 @@ class QuestionsController < ApplicationController
     # params.require(:question): We must have a question object on the params of the request
     # .permit(:title, :body): For security reasons we only permit the title and body key/value pairs of the question
     @question = Question.new question_params
+    @question.user = current_user
     if @question.save
       # flash is a hash that is accessible within controllers. It's also available within the views
       flash[:notice] = "Question created successfully"
