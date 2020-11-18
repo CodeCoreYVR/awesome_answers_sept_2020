@@ -8,6 +8,27 @@
 
 
 # rail db:seed 👈🏻 command to run seed file
+User.destroy_all
+PASSWORD='supersecret'
+
+super_user=User.create(
+    first_name: 'Jon',
+    last_name: 'Snow',
+    email:"js@winterfell.gov",
+    password: PASSWORD
+)
+10.times do 
+first_name=Faker::Name.first_name
+last_name=Faker::Name.last_name
+User.create(
+    first_name:first_name,
+    last_name: last_name,
+    email: "#{first_name.downcase}.#{last_name.downcase}@example.com",
+    password: PASSWORD
+)
+end
+users=User.all
+
 Question.destroy_all
 
 200.times do
@@ -19,7 +40,8 @@ Question.destroy_all
         body: Faker::ChuckNorris.fact,
         view_count: rand(100_000),
         created_at:created_at,
-        updated_at:created_at
+        updated_at:created_at,
+        user: users.sample
 
     )
 
@@ -30,7 +52,8 @@ questions.each do |q|
     5.times do
         Answer.create(
             body: Faker::Lorem.paragraph,
-            question_id: q.id
+            question_id: q.id,
+            user: users.sample 
         )
     end
 end
@@ -39,3 +62,5 @@ answers = Answer.all
 
 puts Cowsay.say("Generated #{questions.count} questions", :frogs)
 puts Cowsay.say("Generated #{answers.count} answers", :frogs)
+puts Cowsay.say("Generated #{users.count} user", :beavis)
+puts Cowsay.say("Login with #{super_user.email} and password: #{PASSWORD}", :koala)
