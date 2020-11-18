@@ -1,0 +1,17 @@
+<h1>
+    Sign In Form
+</h1>
+
+<%= form_with url: session_path,local: true do |f|  %> 
+<!-- 👆🏻Thin to notice hwere we are using url instead of model because session controller doesn't have underlying model to store data in database  -->
+
+<div>
+    <%= f.label :email  %> 
+    <%= f.email_field :email  %> 
+</div>
+<div>
+    <%= f.label :password  %> 
+    <%= f.password_field :password  %> 
+</div>
+<%= f.submit "Sign In" %> 
+<% end %>

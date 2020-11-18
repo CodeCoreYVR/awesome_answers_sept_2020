@@ -54,5 +54,12 @@ Rails.application.routes.draw do
   end
 
   resources :users, only:[:new, :create]
+  resource :session, only:[:new, :create, :destroy]
+
+  # 👆🏻 resource is singular instead of resources
+# Unlike resources, resource will create routes that do CRUD operation on Only single thing. There will be no index routes not route will ne having :id (patch, put) wildcard.
+# Note: When using a singular resource the controller name will still be plural
+
+
 
 end
