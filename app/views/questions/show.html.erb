@@ -8,10 +8,10 @@
 
 </h4>
 <p><%= time_ago_in_words(@question.created_at) %></p>
-
+<% if can?(:crud,@question)%>
 <%= link_to "Edit", edit_question_path(@question) %>
 <%= link_to "Delete", question_path(@question), method: :delete, data: { confirm: "Are you sure?" } %>
-
+<% end %>
 <h2>Answers:</h2>
 
 <%# Because we're creating a new answer we need a POST '/questions/:question_id/answers %>
@@ -31,6 +31,7 @@
     <li>
       <p><%= a.body %></p>
       <%# question_answer_path(@question, a) => "/questions/:question_id/answers/:id" %>
+      <%if can?(:crud,a) %>
       <%= link_to(
         "Delete",
         question_answer_path(@question, a),
@@ -39,6 +40,7 @@
           confirm: "are you sure you want to delete this answer?"
         }
       )%>
+      <% end %>
       <small>
         Answered by: <%= a.user&.full_name%>
       </small>

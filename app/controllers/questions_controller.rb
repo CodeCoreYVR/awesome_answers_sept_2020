@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except:[:index, :show]
+  before_action :authorize_user!, only:[:edit,:update,:destroy]
   # Methods ending in ! perform some permanent or potentially dangerous change
   
   # see more about controller hooks/callbacks here https://api.rubyonrails.org/classes/AbstractController/Callbacks/ClassMethods.html
@@ -63,6 +64,9 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.find params[:id]
+  end
+  def authorize_user!
+    redirect_to root_path, alert:"Not Authorized" unless can?(:crud,Question)
   end
 
 end

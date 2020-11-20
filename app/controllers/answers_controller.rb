@@ -15,7 +15,15 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer = Answer.find params[:id]
+    if can?(:crud,@answer)
     @answer.destroy
     redirect_to question_path(@answer.question)
+    else
+      #  head will send an empty HTTP response  with a particular response code, in this case 
+      # unauthorized 401
+      # # http://billpatrianakos.me/blog/2013/10/13/list-of-rails-status-code-symbols/
+
+      head :unauthorized
+    end
   end
 end
