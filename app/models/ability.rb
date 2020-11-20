@@ -34,5 +34,36 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+# We will be defining our rules for different roles here:
+# We will be using 'can' method to define rules
+# First argument it takes is an action - but in form of symbol
+# Actions could be:
+# :create(:new)
+# :read(:index and :show)
+# :update(:edit)
+# :destroy
+
+alias_action(:create, :read,:update, :delete, to: :crud)
+# alias_action(:create, :update, :read, to: :crud_without_delete)
+
+#  second argument for the method 'can' is a name of resource(and in our case it is Question and Answer) or :all(and this will be applied to all the resource in a application)
+# third is the block that we pass to the 'can' 
+
+# Allow owner of the question to perform CRUD on it question
+can(:crud, Question) do |question|
+  user==question.user
+  # Here user is comming from our method_helper current_user in application controller
+end
+# In following we are allowing the user to perform CRUD on Answer if the user is its owner
+can(:crud, Answer)do |answer|
+  user==answer.user
+end
+
+#  it is important to set  the permission at two level
+#  1. Controller
+# 2.View level
+
+
   end
 end
