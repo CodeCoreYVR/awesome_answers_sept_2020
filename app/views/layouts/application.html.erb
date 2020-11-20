@@ -10,6 +10,7 @@
   </head>
 
   <body>
+    <div class='container-fluid'>
     <%= flash[:notice] || flash[:alert] %>
     <%= link_to 'Home', root_path %>
     |
@@ -31,5 +32,6 @@
 
     <% end %>
     <%= yield %>
+  </div>
   </body>
 </html>

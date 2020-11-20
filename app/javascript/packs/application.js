@@ -7,7 +7,17 @@ require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
 
+// 👇🏻Step 4: Importing boostrap in application.js
+import 'bootstrap'
 
+// Step 6 : wirring application.scss with application.js
+import '../stylesheets/application.scss'
+// Step 7: Wirring it question.js with application.js
+import './question'
+
+console.log('Hello from app/javascript/packs/application.js')
+
+//Ends
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.

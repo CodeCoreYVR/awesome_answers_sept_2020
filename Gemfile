@@ -27,6 +27,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'cancancan'
 gem 'bootstrap', '~> 4.4.1'
+# Step 2:👇🏻
+# After bundle install run :👉🏻yarn add bootstrap@4.4.1 jquery popper.js 
 
 
 group :development, :test do
