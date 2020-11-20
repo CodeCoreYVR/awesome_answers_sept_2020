@@ -66,7 +66,7 @@ class QuestionsController < ApplicationController
     @question = Question.find params[:id]
   end
   def authorize_user!
-    redirect_to root_path, alert:"Not Authorized" unless can?(:crud,Question)
+    redirect_to root_path, alert:"Not Authorized" unless can?(:crud,@question)#Fix:  👈🏻Change from Question to @question
   end
 
 end
