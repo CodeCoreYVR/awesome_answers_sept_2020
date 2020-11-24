@@ -7,7 +7,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
     describe "title" do
     it "requires a title" do
       # Given
-      job_post=JobPost.new
+      job_post=FactoryBot.build(:job_post, title: nil)
 
       # When
       job_post.valid?
@@ -21,10 +21,10 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
     end
     it "title is unique" do
       # given 
-      persisted_job_post = JobPost.create(title: 'full stack dev', description: 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!', min_salary: 35_000, location: "Vancouver")
+      persisted_job_post = FactoryBot.create(:job_post)
 
       #when
-      job_post=JobPost.new( title: persisted_job_post.title, description: 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!', min_salary: 35_000, location: "Vancouver")
+      job_post=FactoryBot.build(:job_post, title: persisted_job_post.title)
       job_post.valid?
 
       # Then
@@ -35,7 +35,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
   describe "description" do
     it "requires a description" do
       # Given
-      job_post=JobPost.new
+      job_post=FactoryBot.build(:job_post, description: nil)
       # When
       job_post.valid?
 
@@ -44,7 +44,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
     end
     it 'must be larger than 100 characters'do
     # Given
-    job_post=JobPost.new(description: "abcd")
+    job_post=FactoryBot.build(:job_post, description: 'less than 100')
 
     # When
     job_post.valid?
@@ -57,7 +57,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
   describe "location" do
     it 'is required' do
       # Given
-      job_post= JobPost.new
+      job_post= FactoryBot.build(:job_post, location: nil)
 
       # When
       job_post.valid?
@@ -69,7 +69,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
   describe "min_salary" do
     it "salary_min must be a number greater than 30_000" do
       # Given
-      job_post=JobPost.new(min_salary: 25_000)
+      job_post=FactoryBot.build(:job_post, min_salary: 25_000)
 
       # When
       job_post.valid?
