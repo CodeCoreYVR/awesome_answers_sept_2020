@@ -37,6 +37,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
+  gem 'rails-controller-testing' # library that helps us test rails controllers
   # Library heavily integrated into rails to allow us to test stuff really easily
   gem "factory_bot_rails"
 end

@@ -60,6 +60,7 @@ Rails.application.routes.draw do
 # Unlike resources, resource will create routes that do CRUD operation on Only single thing. There will be no index routes not route will ne having :id (patch, put) wildcard.
 # Note: When using a singular resource the controller name will still be plural
 
+resources :job_posts, only: [:new]
 
 
 end
