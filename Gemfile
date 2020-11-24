@@ -36,6 +36,9 @@ gem 'faker'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  # Library heavily integrated into rails to allow us to test stuff really easily
+
 end
 
 # The gemfile is where all your dependencies are listed
