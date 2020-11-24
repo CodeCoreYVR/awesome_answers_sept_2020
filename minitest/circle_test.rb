@@ -8,25 +8,26 @@ require "minitest/autorun"
 # area method that returns the area of the circle. Test with various circles that the area returned is correct.
 # perimeter method that returns the length of circle's border (or perimeter). Test with various circles that the perimeter returned is correct.
 class Circle
-    attr_accessor :r
-  
-    def initialize(r)
-      @r = r
-    end
-  
-    def diameter 
-      r * 2
-    end
-  
-    def area
-      ((r * r).to_f * Math::PI).round(12)
-    end
-  
-    def circumference
-      ((2 * Math::PI) * r).round(12)
-    end
+  attr_accessor :r
+
+  def initialize(r)
+    @r = r
   end
   
+  def diameter 
+    r * 2
+  end
+
+  def area
+    ((r * r).to_f * Math::PI).round(12)
+  end
+
+  def circumference
+    ((2 * Math::PI) * r).round(12)
+  end
+
+end
+
 
 describe "Circle" do
 
