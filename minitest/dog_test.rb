@@ -1,40 +1,40 @@
 require "minitest/autorun"
-
 class Bone
-  attr_accessor :size
-
-  def initialize(size)
-    @size = size
-  end
-end
-
-class Dog
-
-  def initialize()
-    @bones = []
-  end
-
-  def give_bone(bone)
-    if !(bone.instance_of? Bone) 
-      raise "#{bone} is not an instance of Bone. Got: #{bone.class}"
+    attr_accessor :size
+  
+    def initialize(size)
+      @size = size
     end
-
-    if @bones.length >= 3
-      raise "maximum bone count reached. Can't hold any more bones"
+  end
+  
+  class Dog
+  
+    def initialize()
+      @bones = []
     end
-
-    @bones << bone
-    @bones.length
+  
+    def give_bone(bone)
+      if !(bone.instance_of? Bone) 
+        raise "#{bone} is not an instance of Bone. Got: #{bone.class}"
+      end
+  
+      if @bones.length >= 3
+        raise "maximum bone count reached. Can't hold any more bones"
+      end
+  
+      @bones << bone
+      @bones.length
+    end
+  
+    def eat_bone
+      @bones.pop
+    end
+  
+    def bone_count
+      @bones.length
+    end
   end
-
-  def eat_bone
-    @bones.pop
-  end
-
-  def bone_count
-    @bones.length
-  end
-end
+  
 
 describe "Dog" do
   describe ".give_bone" do
