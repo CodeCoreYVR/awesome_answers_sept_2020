@@ -3,6 +3,8 @@ require 'rails_helper'
 # matchers docs https://relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
 RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost model into this file
   describe "validates" do
+
+    describe "title" do
     it "requires a title" do
       # Given
       job_post=JobPost.new
@@ -19,16 +21,18 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
     end
     it "title is unique" do
       # given 
-      persisted_job_post = JobPost.create(title: 'full stack dev', description: 'hello world!', min_salary: 35_000)
+      persisted_job_post = JobPost.create(title: 'full stack dev', description: 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!', min_salary: 35_000, location: "Vancouver")
 
       #when
-      job_post=JobPost.new( title: persisted_job_post.title, description: 'hello world!', min_salary: 35_000)
+      job_post=JobPost.new( title: persisted_job_post.title, description: 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!', min_salary: 35_000, location: "Vancouver")
       job_post.valid?
 
       # Then
       expect(job_post.errors.messages).to(have_key(:title))
 
     end
+  end 
+  describe "description" do
     it "requires a description" do
       # Given
       job_post=JobPost.new
@@ -37,8 +41,32 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
 
       # Then
       expect(job_post.errors.messages).to(have_key(:description))
-
     end
+    it 'must be larger than 100 characters'do
+    # Given
+    job_post=JobPost.new(description: "abcd")
+
+    # When
+    job_post.valid?
+
+    # Then
+# byebug
+    expect(job_post.errors.messages).to(have_key(:description))
+  end
+  end
+  describe "location" do
+    it 'is required' do
+      # Given
+      job_post= JobPost.new
+
+      # When
+      job_post.valid?
+
+      # Then
+      expect(job_post.errors.messages).to(have_key(:location))
+    end
+  end
+  describe "min_salary" do
     it "salary_min must be a number greater than 30_000" do
       # Given
       job_post=JobPost.new(min_salary: 25_000)
@@ -53,6 +81,7 @@ RSpec.describe JobPost, type: :model do # rspec has alread injected JobPost mode
 
 
     end
+  end
   end
 
   
