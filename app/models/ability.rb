@@ -64,6 +64,10 @@ can(:crud, Answer)do |answer|
   user==answer.user
 end
 
+can(:crud, JobPost) do |job_post|
+  user == job_post.user
+end
+
 #  it is important to set  the permission at two level
 #  1. Controller
 # 2.View level

@@ -164,42 +164,77 @@ RSpec.describe JobPostsController, type: :controller do
   describe "#destroy" do
     
     context "with signed in user" do
-      before do # will run all of this code before every single test within the this describe block
-        session[:user_id] = FactoryBot.create(:user) # sign in user
-        #GIVEN
-        @job_post = FactoryBot.create(:job_post)
-        #WHEN
-        delete(:destroy, params: { id: @job_post.id })
+      
+      context "as owner" do
+        before do # will run all of this code before every single test within the this describe block
+          current_user = FactoryBot.create(:user)
+          session[:user_id] = current_user.id # sign in user
+          #GIVEN
+          @job_post = FactoryBot.create(:job_post, user: current_user)
+          #WHEN
+          delete(:destroy, params: { id: @job_post.id })
+        end
+
+        it "should remove a job post from the database" do
+          #THEN
+          expect(JobPost.find_by(id: @job_post.id)).to be(nil)
+        end
+    
+        it "redirect to the job post index" do
+          #THEN
+          expect(response).to redirect_to(job_posts_path)
+        end
+    
+        it "set a flash message" do
+          expect(flash[:danger]).to be # assert that the danger property of the flash object exists
+        end
       end
 
-      it "should remove a job post from the database" do
-        #THEN
-        expect(JobPost.find_by(id: @job_post.id)).to be(nil)
+      context "as non owner" do
+        before do
+          current_user = FactoryBot.create(:user)
+          session[:user_id] = current_user
+          @job_post = FactoryBot.create(:job_post)
+          # current logged in user IS NOT the user that owns @job_post
+        end
+
+        it "does not remove the job post" do
+          delete(:destroy, params: { id: @job_post.id })
+          expect(JobPost.find(@job_post.id)).to eq(@job_post)
+        end
       end
-  
-      it "redirect to the job post index" do
-        #THEN
-        expect(response).to redirect_to(job_posts_path)
-      end
-  
-      it "set a flash message" do
-        expect(flash[:danger]).to be # assert that the danger property of the flash object exists
-      end
+
     end
 
   end
 
   describe "#edit" do
     context "with signed in user" do
-      before do
-        session[:user_id] = FactoryBot.create(:user)
+
+      context "as owner" do
+        before do
+          current_user = FactoryBot.create(:user)
+          session[:user_id] = current_user.id # session[:user_id] is the same id as @job_post.user.id
+          @job_post = FactoryBot.create(:job_post, user: current_user)
+        end
+        it "render the edit template" do
+          get :edit, params: { id: @job_post.id }
+          expect(response).to render_template :edit
+        end 
       end
 
-      it "render the edit template" do
-        job_post = FactoryBot.create(:job_post)
-        get :edit, params: { id: job_post.id }
-        expect(response).to render_template :edit
-      end 
+      context "as non owner" do
+        before do
+          current_user = FactoryBot.create(:user) 
+          session[:user_id] = current_user.id # session[:user_id] is NOT the same as @job_post.user.id
+          @job_post = FactoryBot.create(:job_post)
+        end
+        it "should redirect to show page" do
+          get :edit, params: { id: @job_post.id }
+          expect(response).to redirect_to job_post_path(@job_post)
+        end
+      end
+
     end
   end
 
@@ -212,7 +247,7 @@ RSpec.describe JobPostsController, type: :controller do
       before do
         session[:user_id] = FactoryBot.create(:user)
       end
-      
+
       context "with valid parameters" do
   
         it "update the job post record with new attributes" do

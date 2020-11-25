@@ -31,13 +31,23 @@ class JobPostsController < ApplicationController
 
   def destroy
     job_post = JobPost.find params[:id]
-    job_post.destroy
-    flash[:danger] = "deleted job post"
-    redirect_to job_posts_path
+    if can?(:delete, job_post)
+      job_post.destroy
+      flash[:danger] = "deleted job post"
+      redirect_to job_posts_path
+    else
+      flash[:danger] = "Access Denied"
+      redirect_to job_post_url(job_post)
+    end
   end
 
   def edit
-
+    @job_post = JobPost.find params[:id]
+    if can?(:edit, @job_post)
+      render :edit
+    else
+      redirect_to job_post_path(@job_post)
+    end
   end
 
   def update
