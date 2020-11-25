@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+    has_many :job_posts, dependent: :nullify
+
     # rails g model user first_name last_name email password_digest
     # 👆🏻used this terminal command to generate migration and model
     has_secure_password
