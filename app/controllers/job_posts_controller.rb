@@ -27,4 +27,12 @@ class JobPostsController < ApplicationController
   def show
     @job_post = JobPost.find params[:id]
   end
+
+  def destroy
+    job_post = JobPost.find params[:id]
+    job_post.destroy
+    flash[:danger] = "deleted job post"
+    redirect_to job_posts_path
+  end
+
 end
