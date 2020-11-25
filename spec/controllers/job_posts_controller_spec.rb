@@ -4,34 +4,49 @@ require "rails_helper"
 
 RSpec.describe JobPostsController, type: :controller do
   describe "#new" do
-    it "renders the new template" do
-      # GIVEN
-
-      # WHEN
-      get(:new)
-      # The Rspec-Rails gem gives us this method to "mock" a request to the new action. More info at https://rspec.info/documentation/4.0/rspec-rails/RSpec/Rails/Matchers/RoutingMatchers/RouteHelpers.html#get-instance_method
-
-      # THEN
-      expect(response).to(render_template(:new))
-      # response is an object that represents the HTTP-Response
-      # Rspec makes this object available within the specs
-      # We verify that the response will render out the template called "new" using the matcher `rendered_template`
+    context "with user signed in" do
+      before do
+        session[:user_id] = FactoryBot.create(:user).id
+      end
+      it "renders the new template" do
+        # GIVEN
+  
+        # WHEN
+        get(:new)
+        # The Rspec-Rails gem gives us this method to "mock" a request to the new action. More info at https://rspec.info/documentation/4.0/rspec-rails/RSpec/Rails/Matchers/RoutingMatchers/RouteHelpers.html#get-instance_method
+  
+        # THEN
+        expect(response).to(render_template(:new))
+        # response is an object that represents the HTTP-Response
+        # Rspec makes this object available within the specs
+        # We verify that the response will render out the template called "new" using the matcher `rendered_template`
+      end
+  
+      it "sets an instance variable with a new job post" do
+        # GIVEN
+  
+        # WHEN
+        get(:new)
+  
+        # THEN
+        # assign(:job_post) available from the `rails-controller-testing` gem allows you to grab an instance varaible
+        expect(assigns(:job_post)).to(be_a_new(JobPost))
+        # we check that the instance variable @job_post is a new instance of the class JobPost (Model)
+      end
     end
 
-    it "sets an instance variable with a new job post" do
-      # GIVEN
-
-      # WHEN
-      get(:new)
-
-      # THEN
-      # assign(:job_post) available from the `rails-controller-testing` gem allows you to grab an instance varaible
-      expect(assigns(:job_post)).to(be_a_new(JobPost))
-      # we check that the instance variable @job_post is a new instance of the class JobPost (Model)
+    context "without signed in user" do
+      it "should redirect to the sign in page" do
+        get(:new)
+        expect(response).to redirect_to(new_session_path)
+      end
     end
   end
 
   describe "#create" do
+    def valid_request
+      post(:create, params: { job_post: FactoryBot.attributes_for(:job_post) })
+    end
     context "with user signed in" do
       before do
         # mimics a user signed in
@@ -39,9 +54,6 @@ RSpec.describe JobPostsController, type: :controller do
       end
 
       context "with valid parameters" do
-        def valid_request
-          post(:create, params: { job_post: FactoryBot.attributes_for(:job_post) })
-        end
   
         it "creates a job post in the database" do
           # GIVEN
@@ -104,6 +116,12 @@ RSpec.describe JobPostsController, type: :controller do
     end
 
     context "with user not signed in" do
+
+      it "should redirect to the sign in page" do
+        valid_request
+        expect(response).to redirect_to(new_session_path)
+      end
+
     end
 
     
@@ -144,35 +162,45 @@ RSpec.describe JobPostsController, type: :controller do
   end
 
   describe "#destroy" do
+    
+    context "with signed in user" do
+      before do # will run all of this code before every single test within the this describe block
+        session[:user_id] = FactoryBot.create(:user) # sign in user
+        #GIVEN
+        @job_post = FactoryBot.create(:job_post)
+        #WHEN
+        delete(:destroy, params: { id: @job_post.id })
+      end
 
-    before do # will run all of this code before every single test within the this describe block
-      #GIVEN
-      @job_post = FactoryBot.create(:job_post)
-      #WHEN
-      delete(:destroy, params: { id: @job_post.id })
+      it "should remove a job post from the database" do
+        #THEN
+        expect(JobPost.find_by(id: @job_post.id)).to be(nil)
+      end
+  
+      it "redirect to the job post index" do
+        #THEN
+        expect(response).to redirect_to(job_posts_path)
+      end
+  
+      it "set a flash message" do
+        expect(flash[:danger]).to be # assert that the danger property of the flash object exists
+      end
     end
 
-    it "should remove a job post from the database" do
-      #THEN
-      expect(JobPost.find_by(id: @job_post.id)).to be(nil)
-    end
-
-    it "redirect to the job post index" do
-      #THEN
-      expect(response).to redirect_to(job_posts_path)
-    end
-
-    it "set a flash message" do
-      expect(flash[:danger]).to be # assert that the danger property of the flash object exists
-    end
   end
 
   describe "#edit" do
-    it "render the edit template" do
-      job_post = FactoryBot.create(:job_post)
-      get :edit, params: { id: job_post.id }
-      expect(response).to render_template :edit
-    end 
+    context "with signed in user" do
+      before do
+        session[:user_id] = FactoryBot.create(:user)
+      end
+
+      it "render the edit template" do
+        job_post = FactoryBot.create(:job_post)
+        get :edit, params: { id: job_post.id }
+        expect(response).to render_template :edit
+      end 
+    end
   end
 
   describe "#update" do
@@ -180,29 +208,35 @@ RSpec.describe JobPostsController, type: :controller do
       @job_post = FactoryBot.create(:job_post)
     end
 
-    context "with valid parameters" do
-
-      it "update the job post record with new attributes" do
-        new_title = "#{@job_post.title} Plus some changes!!!"
-        patch :update, params: { id: @job_post.id, job_post: { title: new_title}}
-        expect(@job_post.reload.title).to eq new_title
+    context "with signed in user" do
+      before do
+        session[:user_id] = FactoryBot.create(:user)
       end
-
-      it "redirects to the show page" do
-        new_title = "#{@job_post.title} Plus some changes!!!"
-        patch :update, params: { id: @job_post.id, job_post: { title: new_title}}
-        expect(response).to redirect_to(@job_post)
+      
+      context "with valid parameters" do
+  
+        it "update the job post record with new attributes" do
+          new_title = "#{@job_post.title} Plus some changes!!!"
+          patch :update, params: { id: @job_post.id, job_post: { title: new_title}}
+          expect(@job_post.reload.title).to eq new_title
+        end
+  
+        it "redirects to the show page" do
+          new_title = "#{@job_post.title} Plus some changes!!!"
+          patch :update, params: { id: @job_post.id, job_post: { title: new_title}}
+          expect(response).to redirect_to(@job_post)
+        end
       end
-    end
-
-    context "with invalid parameters" do
-
-      it "should not update the job post record" do
-        patch :update, params: { id: @job_post.id, job_post: { title: nil }}
-        job_post_after_update = JobPost.find(@job_post.id)
-        expect(job_post_after_update.title).to eq @job_post.title
+  
+      context "with invalid parameters" do
+  
+        it "should not update the job post record" do
+          patch :update, params: { id: @job_post.id, job_post: { title: nil }}
+          job_post_after_update = JobPost.find(@job_post.id)
+          expect(job_post_after_update.title).to eq @job_post.title
+        end
+  
       end
-
     end
 
   end
