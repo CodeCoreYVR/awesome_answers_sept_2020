@@ -35,4 +35,7 @@ class JobPostsController < ApplicationController
     redirect_to job_posts_path
   end
 
+  def edit
+    
+  end
 end

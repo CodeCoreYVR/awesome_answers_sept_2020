@@ -155,4 +155,12 @@ RSpec.describe JobPostsController, type: :controller do
       expect(flash[:danger]).to be # assert that the danger property of the flash object exists
     end
   end
+
+  describe "#edit" do
+    it "render the edit template" do
+      job_post = FactoryBot.create(:job_post)
+      get :edit, params: { id: job_post.id }
+      expect(response).to render_template :edit
+    end 
+  end
 end
