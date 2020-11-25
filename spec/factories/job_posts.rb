@@ -15,6 +15,8 @@ FactoryBot.define do
     min_salary{rand(80_000..200_000)}
     max_salary{rand(200_000..400_000)}
     
+    association(:user, factory: :user)
+    # sets the user_id to a user
   end
 end
 
