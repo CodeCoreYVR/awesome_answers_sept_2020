@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     # update => PATCH '/questions/:question_id/answers/:id'
     # delete => DELETE '/questions/:question_id/answers/:id'
     resources :answers, only: [:create, :destroy]
+    resources :likes, only: [:create]
+    # /questions/:question_id/likes
   end
 
   resources :users, only:[:new, :create]

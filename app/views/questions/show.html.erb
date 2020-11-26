@@ -12,6 +12,20 @@
 <%= link_to "Edit", edit_question_path(@question) %>
 <%= link_to "Delete", question_path(@question), method: :delete, data: { confirm: "Are you sure?" } %>
 <% end %>
+
+<div>
+  <%= link_to(
+    "Like",
+    question_likes_path(@question),
+    method: :post
+  )
+  %>
+</div>
+<div>
+  # Likes:
+  <%= @question.likes&.count %>
+</div>
+
 <h2>Answers:</h2>
 
 <%# Because we're creating a new answer we need a POST '/questions/:question_id/answers %>
