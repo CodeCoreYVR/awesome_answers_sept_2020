@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     # /questions/:question_id/likes
     # /questions/likes/:id => with shallow: true
     # /questions/:question_id/likes/:id => with shallow: false (default)
-
+    get :liked, on: :collection # => GET /questions/liked { to: 'questions#liked' }
   end
 
   resources :users, only:[:new, :create]

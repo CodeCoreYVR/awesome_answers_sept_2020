@@ -57,6 +57,10 @@ class QuestionsController < ApplicationController
     render :show
   end
 
+  def liked
+    @questions = current_user.liked_questions.order(created_at: :desc)
+  end
+
   private
 
   def question_params
