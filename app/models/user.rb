@@ -14,13 +14,16 @@ class User < ApplicationRecord
     has_many :questions, dependent: :nullify
     has_many :answers, dependent: :nullify
 
-    has_and_belongs_to_many(
-        :liked_questions,
-        class_name: 'Question',
-        join_table: 'likes',
-        association_foreign_key: 'question_id',
-        foreign_key: 'user_id'
-    )
+    # has_and_belongs_to_many(
+    #     :liked_questions,
+    #     class_name: 'Question',
+    #     join_table: 'likes',
+    #     association_foreign_key: 'question_id',
+    #     foreign_key: 'user_id'
+    # )
+    has_many :likes
+    has_many :liked_questions, through: :likes, source: :question
+
 
     def full_name
         "#{first_name} #{last_name}"
