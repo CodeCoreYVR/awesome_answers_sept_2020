@@ -4,7 +4,15 @@ class Question < ApplicationRecord
     belongs_to :user, optional: true
     # creates a has_many association between Question and Answer
     # now you have additonal methods to query the association. More info at https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_many
-# 👆🏻Question Class inherits from ApplicationRecord
+    # 👆🏻Question Class inherits from ApplicationRecord
+
+    has_and_belongs_to_many(
+        :likes, #name of the association
+        class_name: 'User', #model that is used in the association
+        join_table: 'likes', # join table for the many_to_many relationship
+        association_foreign_key: 'user_id', # within the join table this is the foreign key to the class_name (Model of the association)
+        foreign_key: 'question_id' # within the join table is the foreign key to this Model
+    )
 
 after_initialize :set_defaults # it is generally usefull to set the default values
 before_save :capitalize_title # it will work when before the data is saved to db
