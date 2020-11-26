@@ -59,6 +59,16 @@ can(:crud, Question) do |question|
   user==question.user
   # Here user is comming from our method_helper current_user in application controller
 end
+can(:like, Question) do |question|
+  user.persisted? && question.user != user
+  # user.persited? will return true if the user is saved into a database
+  # question.user != user: do not allow a user to like a question if the question's user is the user
+end
+
+can(:destroy, Like) do |like|
+  like.user == user
+end
+
 # In following we are allowing the user to perform CRUD on Answer if the user is its owner
 can(:crud, Answer)do |answer|
   user==answer.user

@@ -5,7 +5,9 @@ class LikesController < ApplicationController
     question = Question.find params[:question_id]
     like = Like.new(question: question, user: current_user)
 
-    if like.save
+    if !(can?(:like, question))
+      flash[:danger] = "You can't like your own question"
+    elsif like.save
       flash[:success] = "Question Liked!"
     else
       flash[:danger] = like.errors.full_messages.join(", ")
@@ -16,7 +18,9 @@ class LikesController < ApplicationController
   def destroy
     # like = Like.find_by(question: params[:question_id], user: current_user) => no longer works after setting shallow: true because there's no longer a question_id parameter
     like = current_user.likes.find params[:id]
-    if like.destroy
+    if !(can?(:destroy, like))
+      flash[:warning] = "You can't destroy a like you do not own"
+    elsif like.destroy
       flash[:success] = "Question Un-Liked" 
     else
       flash[:warning] = "It's rude to unlike something you've already liked"
