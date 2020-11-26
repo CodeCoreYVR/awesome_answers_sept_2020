@@ -51,8 +51,11 @@ Rails.application.routes.draw do
     # update => PATCH '/questions/:question_id/answers/:id'
     # delete => DELETE '/questions/:question_id/answers/:id'
     resources :answers, only: [:create, :destroy]
-    resources :likes, only: [:create]
+    resources :likes, shallow: true, only: [:create, :destroy]
     # /questions/:question_id/likes
+    # /questions/likes/:id => with shallow: true
+    # /questions/:question_id/likes/:id => with shallow: false (default)
+
   end
 
   resources :users, only:[:new, :create]

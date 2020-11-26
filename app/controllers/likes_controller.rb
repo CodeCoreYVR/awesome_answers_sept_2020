@@ -12,4 +12,16 @@ class LikesController < ApplicationController
     end
     redirect_to question_path(question)
   end
+
+  def destroy
+    # like = Like.find_by(question: params[:question_id], user: current_user) => no longer works after setting shallow: true because there's no longer a question_id parameter
+    like = current_user.likes.find params[:id]
+    if like.destroy
+      flash[:success] = "Question Un-Liked" 
+    else
+      flash[:warning] = "It's rude to unlike something you've already liked"
+    end
+
+    redirect_to question_path(like.question)
+  end
 end

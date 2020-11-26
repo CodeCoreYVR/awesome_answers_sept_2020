@@ -33,6 +33,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new # is to make sure form_with works...
     @answers = @question.answers
+    @like = @question.likes.find_by(user: current_user)
   end
 
   def edit
