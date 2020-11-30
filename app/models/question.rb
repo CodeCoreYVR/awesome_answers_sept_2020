@@ -17,6 +17,11 @@ class Question < ApplicationRecord
     has_many :likes
     has_many :likers, through: :likes, source: :user
 
+    has_many :taggings, dependent: :destroy
+    has_many :tags, through: :taggings#,source : :tag
+    # if the name of the association(i.e tags) is same as the 
+    # source singularized(i.e. tag), then the source namded argument can be omitted
+
 after_initialize :set_defaults # it is generally usefull to set the default values
 before_save :capitalize_title # it will work when before the data is saved to db
 
