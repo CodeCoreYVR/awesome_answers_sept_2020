@@ -15,6 +15,10 @@ import '../stylesheets/application.scss'
 // Step 7: Wirring it question.js with application.js
 import './question'
 
+import "./selectize"
+window.jQuery=$;
+window.$=$;
+
 console.log('Hello from app/javascript/packs/application.js')
 
 //Ends
