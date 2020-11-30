@@ -8,6 +8,12 @@
 
 
 # rail db:seed 👈🏻 command to run seed file
+Like.delete_all
+Tagging.delete_all
+Tag.delete_all
+
+NUM_TAGS=10
+
 User.destroy_all
 PASSWORD='supersecret'
 
@@ -30,6 +36,8 @@ User.create(
 end
 users=User.all
 
+
+
 Question.destroy_all
 
 200.times do
@@ -49,6 +57,12 @@ Question.destroy_all
 end
 questions = Question.all
 
+NUM_TAGS.times do
+    Tag.create(name: Faker::Vehicle.make)
+end
+
+tags=Tag.all
+
 questions.each do |q|
     5.times do
         Answer.create(
@@ -57,6 +71,8 @@ questions.each do |q|
             user: users.sample 
         )
     end
+    q.tags=tags.shuffle.slice(0,rand(tags.count))
+    q.likers=users.shuffle.slice(0,rand(users.count))
 end
 
 answers = Answer.all
@@ -64,4 +80,6 @@ answers = Answer.all
 puts Cowsay.say("Generated #{questions.count} questions", :frogs)
 puts Cowsay.say("Generated #{answers.count} answers", :frogs)
 puts Cowsay.say("Generated #{users.count} user", :beavis)
+puts Cowsay.say("Generated #{Like.count} likes for questions", :bunny)
+puts Cowsay.say("Generated #{tags.count} tags ", :sheep)
 puts Cowsay.say("Login with #{super_user.email} and password: #{PASSWORD}", :koala)

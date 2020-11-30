@@ -3,4 +3,9 @@
 class Tag < ApplicationRecord
     has_many :taggings,dependent: :destroy
     has_many :questions,through: :taggings
+
+    validates :name, presence: true,uniqueness:{case_sensitive: false}
+    # SCEIENCES not equals to sciences
+    # The case_sensitive option will make uniquness validation ignore case.
+    # In table record with "SCIENCE" and 'Science' can't co-exsist
 end

@@ -31,5 +31,13 @@
     <%= f.label :body %>
     <%= f.text_field :body %>
   </div>
+  <div>
+    <%= f.collection_check_boxes :tag_ids, Tag.order(name: :ASC), :id, :name do |t|  %> 
+    <div>
+      <%= t.check_box  %> 
+      <%= t.text  %> 
+    </div>
+    <% end %>
+  </div>
   <%= f.submit %>
 <% end %>

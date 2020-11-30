@@ -1,6 +1,11 @@
 <h1><%= @question.title %></h1>
 
 <p><%= @question.body %></p>
+<div>
+  Tags: <%= @question.tags.map(&:name).join(", ") %>
+  <!-- Shorthand for passing a block 👆🏻 -->
+  <!-- array.map { |string| string.upcase } -->
+</div>
 <h4>
   Created by: <%= @question.user&.full_name%>
   <!-- '&.' Safe Navigation Operator: if object is not found it will not creash the page or app.Avoiding undefined method for nil:NilClass -->
@@ -52,6 +57,7 @@
   <% @answers.each do |a| %>
     <li>
       <p><%= a.body %></p>
+      
       <%# question_answer_path(@question, a) => "/questions/:question_id/answers/:id" %>
       <%if can?(:crud,a) %>
       <%= link_to(
