@@ -104,6 +104,14 @@ def tag_names=(rhs)
 
 end
 
+def self.all_with_answer_counts
+    self.left_outer_joins(:answers)
+    .select('questions.*','COUNT(answers.*) AS answers_count')
+    .group('questions.id')
+            # https://edgeguides.rubyonrails.org/active_record_querying.html#left-outer-joins
+
+end
+
 private
 def no_monkey
     # "&." is the safe navigation operator. it is uesd like "." to call methods on an object.

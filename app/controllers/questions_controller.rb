@@ -7,7 +7,15 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   # returns every question from the database
   def index
-    @questions = Question.all # Model.all is a method built into active record used to return all records of that model
+    # byebug
+    if params[:tag]
+      @tag=Tag.find_or_initialize_by(name: params[:tag])
+      @questions=@tag.questions.all.order('updated_at DESC')
+
+    else
+      @questions = Question.all # Model.all is a method built into active record used to return all records of that model
+    end
+    
   end
 
   def new
