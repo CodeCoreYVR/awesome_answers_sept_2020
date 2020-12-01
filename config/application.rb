@@ -31,5 +31,7 @@ module AwesomeAnswers
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.active_job.queue_adapter = :delayed_job # tells rails to use delayed job as the queue for active job
   end
 end

@@ -1,6 +1,6 @@
 # rails g factory_bot:model job_post
 # 👆🏻Used this terminal command to generate factory_bot
-RANDOM_100_PLUS_CHARS= 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!'
+# RANDOM_100_PLUS_CHARS= 'hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world!'
 
 FactoryBot.define do
   factory :job_post do
