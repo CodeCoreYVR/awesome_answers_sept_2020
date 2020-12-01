@@ -67,5 +67,5 @@ Rails.application.routes.draw do
 
 resources :job_posts, only: [:new, :create, :show, :index, :destroy, :edit, :update]
 
-
+match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 end

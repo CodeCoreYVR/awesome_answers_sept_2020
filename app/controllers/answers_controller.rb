@@ -7,7 +7,7 @@ class AnswersController < ApplicationController
     @answer.question = @question
     @answer.user= current_user
     if @answer.save
-      # AnswerMailer.notify_question_owner(@answer).deliver
+      AnswerMailer.notify_question_owner(@answer).deliver_later # add the mail to the active job queue
       HelloWorldJob.perform_later("blueberries") # will add the HelloWorldJob to the queue
       redirect_to question_path(@question)
     else
