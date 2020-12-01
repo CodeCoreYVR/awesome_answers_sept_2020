@@ -10,10 +10,14 @@ class AnswerMailer < ApplicationMailer
   end
   # To send mail... inside of any controller you can invoke this method using
   # AnswerMailer.hello_world().deliver
-  def notify_question_owner
+  def notify_question_owner(answer)
+    @answer = answer
+    @question = answer.question
+    @question_owner = @question.user
     mail(
-      to: 'brandon@codecore.ca',
-      subject: 'title of mail'
+      to: @question_owner.email,
+      subject: "#{answer.user.first_name} answered your question!"
     )
+    # look for a template called app/views/AnswerMailer/notify_question_owner
   end
 end

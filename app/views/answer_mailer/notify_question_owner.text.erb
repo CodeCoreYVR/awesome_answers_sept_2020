@@ -1,0 +1,13 @@
+Hi, <%= @question_owner.first_name %>
+
+<%= @answer.user.first_name %> answerd your question titled:
+<%= @question.title %>
+
+The answer is:
+<%= @answer.body %>
+
+Find your question at: <%= question_url(@question) %>
+Make sure you use the URL helper method NOT the path because this link will be in an email that does not know the address/host of the application
+
+Cheers,
+Awesome Answers Team
