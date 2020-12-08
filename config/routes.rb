@@ -75,6 +75,7 @@ match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
     namespace :v1 do
       resources :questions, only: [:index, :show, :create]
       resources :sessions, only: [:create]
+      resources :users, only: [:create]
     end
   end
 end
