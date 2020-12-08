@@ -11,9 +11,18 @@ class QuestionsController < ApplicationController
     if params[:tag]
       @tag=Tag.find_or_initialize_by(name: params[:tag])
       @questions=@tag.questions.all.order('updated_at DESC')
-
+      
     else
       @questions = Question.all # Model.all is a method built into active record used to return all records of that model
+      # respond_to is a method that allows us to specify a response for a given type of request
+      # we can use the curl shell command to send requests
+      # curl http://localhost:3000/questions - will send a GET to the url
+      # curl -H "Accept: application/json" http://localhost:3000/questions
+      # will send a GET request with some information on the header that tells the server this request wants JSON data.
+      respond_to do |format|
+        format.html { render } # if the request is asking for html respond with our html template
+        format.json { render json: @questions } # if the request is asking for JSON respond with json that looks like @questions
+      end
     end
     
   end
