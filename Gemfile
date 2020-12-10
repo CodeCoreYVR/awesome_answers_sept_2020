@@ -42,6 +42,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem 'pry-rails', '~> 0.3.9'
   gem 'rack-cors'
+  gem 'rails_same_site_cookie' # chrome is blocking cookies because we're not using https. This gem will set configurations on rails to allow cookies to still saved
 end
 
 # The gemfile is where all your dependencies are listed
