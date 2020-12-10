@@ -41,6 +41,7 @@ group :development, :test do
   # Library heavily integrated into rails to allow us to test stuff really easily
   gem "factory_bot_rails"
   gem 'pry-rails', '~> 0.3.9'
+  gem 'rack-cors'
 end
 
 # The gemfile is where all your dependencies are listed
