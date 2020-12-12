@@ -29,6 +29,8 @@ gem 'cancancan'
 gem 'bootstrap', '~> 4.4.1'
 gem 'cowsay', '~> 0.3.0'
 gem 'faker'
+gem 'rack-cors'
+gem 'rails_same_site_cookie'
 # Step 2:👇🏻
 # After bundle install run :👉🏻yarn add bootstrap@4.4.1 jquery popper.js 
 

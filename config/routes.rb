@@ -68,4 +68,10 @@ Rails.application.routes.draw do
 resources :job_posts, only: [:new, :create, :show, :index, :destroy, :edit, :update]
 
 match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
+
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :questions, only: [:index, :create, :show, :update]
+    end
+  end
 end
