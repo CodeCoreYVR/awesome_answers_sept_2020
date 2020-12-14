@@ -73,7 +73,7 @@ match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
   # /api/v1/quetions/:id
   namespace :api, default: { format: :json } do
     namespace :v1 do
-      resources :questions, only: [:index, :show, :create, :update]
+      resources :questions, only: [:index, :show, :create, :update, :destroy]
       resources :sessions, only: [:create]
       resources :users, only: [:create]
     end

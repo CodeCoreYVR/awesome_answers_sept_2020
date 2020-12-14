@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::ApplicationController
-  before_action :find_question, only: [:show,:update]
+  before_action :find_question, only: [:show,:update, :destroy]
 
   def index
     questions = Question.order(created_at: :desc)
@@ -33,6 +33,11 @@ class Api::V1::QuestionsController < Api::ApplicationController
       status: 422)
 
     end
+  end
+
+  def destroy
+    @question.destroy
+    render(json: {status:200}, status:200)
   end
   private
   def find_question
