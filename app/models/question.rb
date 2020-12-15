@@ -14,7 +14,7 @@ class Question < ApplicationRecord
     #     foreign_key: 'question_id' # within the join table is the foreign key to this Model
     # )
 
-    has_many :likes
+    has_many :likes, dependent: :destroy
     has_many :likers, through: :likes, source: :user
 
     has_many :taggings, dependent: :destroy

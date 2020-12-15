@@ -37,7 +37,7 @@ class Api::V1::QuestionsController < Api::ApplicationController
 
   def destroy
     @question.destroy
-    render(json: {status:200}, status:200)
+    render(json: {errors: @question.errors}, status:200)
   end
   private
   def find_question
