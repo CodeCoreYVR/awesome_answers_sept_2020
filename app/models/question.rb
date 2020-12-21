@@ -71,7 +71,8 @@ scope(:search,->(query){where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#
 # - The first arguments(s) are column names
   # - The last arguments are key->value arguments
   #   describing the rules to enforce
-  validates(:title, presence: true, uniqueness: true)
+  validates(:title, presence: true, uniqueness: true, length: { minimum: 5 })
+  validates(:body, presence: true, length: { minimum: 10 })
   # - presence rule means that the title must exist
   # - uniqueness rule means that all questions must have
   #   different titles

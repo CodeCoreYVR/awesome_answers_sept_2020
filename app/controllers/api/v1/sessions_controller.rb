@@ -11,4 +11,16 @@ class Api::V1::SessionsController < Api::ApplicationController
       )
     end
   end
+
+  def get_current_user
+    render json: current_user
+  end
+
+  def destroy
+    session[:user_id] = nil
+    render(
+      json: { logged_out: true },
+      status: 200
+    )
+  end
 end
