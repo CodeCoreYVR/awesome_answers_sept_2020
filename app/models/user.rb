@@ -13,6 +13,29 @@ class User < ApplicationRecord
     # 6. It gives use method name as 'authenticate', which convert the password into the same in the same way as it did initially to verify the user, it will return true if password is matched and false incase not.
     has_many :questions, dependent: :nullify
     has_many :answers, dependent: :nullify
+    validates(:email, presence: true, uniqueness: true, format:/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, unless: :from_oauth?)
+
+    def from_oauth?
+        uid.present? && provider.present?
+    end
+    def self.create_from_oauth(oauth_data)
+        name=oauth_data["info"]["name"]&.split || oauth_data["info"]["nickname"]
+        self.create(
+            first_name:name[0],
+            last_name:name[1] || "",
+            uid: oauth_data["uid"],
+            provider: oauth_data["provider"],
+            oauth_raw_data: oauth_data,
+            password: SecureRandom.hex(32)
+        )
+
+    end
+    def self.find_by_oauth(oauth_data)
+        self.find_by(
+            uid: oauth_data["uid"],
+            provider: oauth_data["provider"]
+        )
+    end
 
     # has_and_belongs_to_many(
     #     :liked_questions,

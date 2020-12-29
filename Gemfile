@@ -32,6 +32,7 @@ gem 'faker'
 # Step 2:👇🏻
 # After bundle install run :👉🏻yarn add bootstrap@4.4.1 jquery popper.js 
 gem 'active_model_serializers', '~> 0.10.11'
+gem  'omniauth-github', github:  'omniauth/omniauth-github'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'callbacks/index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # when someone visits GET localhost:3000/ it will be handled by "WelcomeController" index Method
   get('/', { to: 'welcome#index', as: 'root' })
@@ -68,6 +69,9 @@ Rails.application.routes.draw do
 resources :job_posts, only: [:new, :create, :show, :index, :destroy, :edit, :update]
 
 match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
+# Routes for Oauth - Github👇🏻
+get "/auth/github", as: :sign_in_with_github
+get "auth/:provider/callback", to:"callbacks#index"
 
   # /api/v1/questions
   # /api/v1/quetions/:id
